@@ -64,9 +64,9 @@
                 <h2><a href="#">Offers</a></h2>
                 <div>
                     <ul>
-                        <li class='offer'>Office 365</li>
-                        <li class='offer'>Windows</li>
-                        <li class='offer'>Sql Server</li>
+                        <li class='offer'>Office 365 - $100</li>
+                        <li class='offer'>Windows - $120</li>
+                        <li class='offer'>Sql Server - $150</li>
                     </ul>
                 </div>
                 <h2><a href="#">Modifiers</a></h2>
@@ -74,16 +74,14 @@
                     <ul>
                         <li>Margin %</li>
                         <li>Margin $</li>
-                        <li>Term month</li>
-                        <li>Term year</li>
-                        <li class='quantity'>Quantity</li>
+                        <li class='if'>Quantity</li>
                     </ul>
                 </div>
             </div>
             `
     });
 
-
+    let wasInitialized = false;
 
     Vue.component('v-flow',
     {
@@ -98,86 +96,78 @@
                 hoverClass: "highlight-accept",
                 accept: "ul li",
                 drop: function (event, ui) {
-                    $(this).find(".placeholder").remove();
 
-                    let newElement = $('<div class="window jtk-endpoint-anchor jtk-managed jtk-connected jtk-draggable"></div>');
+                    if (!wasInitialized){
 
+                        $(this).find(".placeholder").remove();
                     
-
-                    
-
-                    
-
-                    jsPlumb.importDefaults({
-                        Endpoint : ["Dot", {radius:8}],
-                        EndpointStyle : { fillStyle : "#4A6" },
-                        HoverPaintStyle : {strokeStyle:"#42a62c", lineWidth:8 },
-                        Connector:[ "Flowchart" ],
-                        ConnectionOverlays : [
-                            [ "Arrow", { 
-                                location:1,
-                                id:"arrow",
-                                length:20,
-                                foldback:0.4
-                            } ]
-                        ]
-                    });
-
-                    var workflowConnectorStartpoint = {
-                        isSource: true,
-                        isTarget: false,
-                        maxConnections: 1,				 
-                        anchor:"BottomCenter"
-                    };
-	
-                    var workflowConnectorEndpoint = {
-                        isSource: false,
-                        isTarget: true,
-                        maxConnections: -1,				 
-                        anchor:"TopCenter",
-                        paintStyle: { fillStyle: 'red' },
-                        endpoint: ["Rectangle", {width:12, height:12}]
-                    };
+                        var $accordion = $("#catalog");
+                        var current = $accordion.accordion("option","active"),
+                            maximum = $accordion.find("h3").length,
+                            next = current+1 === maximum ? 0 : current+1;
+                        //$accordion.accordion("activate",next);
+                        $accordion.accordion("option","active",next);                    
 
 
+                        //drowing logic
+                        let numberOfElements = 0;
+                        let drowingWindowSelector = "#flow"
+
+                        let startElement = $('<div class="startpoint point window node" style="left: 650px; top:100px" data-nodetype="startpoint" id="startpoint">'+ui.draggable.text()+'</div>');
+                        startElement.appendTo($(drowingWindowSelector));
+
+                        let endElement = $('<div class="endpoint point window node" style="left: 650px; top:850px" data-nodetype="endpoint" id="endpoint">Finish Selling Flow</div>');
+                        endElement.appendTo($(drowingWindowSelector));
 
 
+                        jsPlumb.draggable($(".window"));
 
+                        jsPlumb.importDefaults({
+                            Endpoint : ["Dot", {radius:8}],
+                            EndpointStyle : { fillStyle : "#4A6" },
+                            HoverPaintStyle : {strokeStyle:"#42a62c", lineWidth:8 },
+                            Connector:[ "Flowchart" ],
+                            ConnectionOverlays : [
+                                [ "Arrow", { 
+                                    location:1,
+                                    id:"arrow",
+                                    length:20,
+                                    foldback:0.4
+                                } ]
+                            ]
+                        });            
 
-                    if (ui.draggable.hasClass("offer")) {
+                        var workflowConnectorStartpoint = {
+                            isSource: true,
+                            isTarget: false,
+                            maxConnections: 1,				 
+                            anchor:"BottomCenter"
+                        };           
+
                         jsPlumb.addEndpoint(
                             $('.startpoint'),
                             workflowConnectorStartpoint
+                        ); 
+
+                        var workflowConnectorEndpoint = {
+                            isSource: false,
+                            isTarget: true,
+                            maxConnections: -1,				 
+                            anchor:"TopCenter",
+                            paintStyle: { fillStyle: 'red' },
+                            endpoint: ["Rectangle", {width:12, height:12}]
+                        };
+
+                        jsPlumb.addEndpoint(
+                            $('.endpoint'),
+                            workflowConnectorEndpoint
                         );
-                    }
-                    if (ui.draggable.hasClass("quantity")) {
-                        newElement = $(`
-                        <div class="decision" data-nodetype="decision" id="decisioncontainer0">
-                                <div class="ctrl_container">
-                                    <div class="button_remove">x</div>
-                                </div>
-                        </div>`);
+
+                        wasInitialized = true;
+                    } else {
+
                     }
 
-
-
-
-
-                    newElement.text(ui.draggable.text()).appendTo(this);
-                    jsPlumb.draggable(newElement);
-
-
-
-
-
-
-
-                    var $accordion = $("#catalog");
-                    var current = $accordion.accordion("option","active"),
-                        maximum = $accordion.find("h3").length,
-                        next = current+1 === maximum ? 0 : current+1;
-                    //$accordion.accordion("activate",next);
-                    $accordion.accordion("option","active",next);                    
                 }
             });
 
@@ -188,6 +178,23 @@
         `
         <div id="flow" class="jtk-demo-canvas canvas-wide chart-demo jtk-surface jtk-surface-nopan">
             <div class="placeholder">Drag Offer here</div>
+            
+            <div class="window task" style="left: 120px; top:200px; display:none;" data-nodetype="task" id="taskcontainer0">
+                <div class="ctrl_container">
+                    <div class="button_remove">x</div>
+                </div>
+                <div class="details_container">
+                    <label class="detail_label">Name</label>
+                    <input value="" class="detail_text"/>
+                </div>
+            </div>
+    
+            <div class="window decision" style="left: 250px; top:300px; display:none;" data-nodetype="decision" id="decisioncontainer0">
+                <div class="ctrl_container">
+                    <div class="button_remove">x</div>
+                </div>
+            </div>
+
         </div>
         `
     });
