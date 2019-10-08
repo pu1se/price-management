@@ -1,0 +1,14 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.idea
+/.vs
+/Web/Properties
+obj/
+/Web/node_modules
+/Web/e2e
+/Web/dist/
+bin/
+/Web/.idea
+/packages

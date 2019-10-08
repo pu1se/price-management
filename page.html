@@ -1,0 +1,216 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Configure Flow</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css" />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsPlumb/1.4.1/jquery.jsPlumb-1.4.1-all-min.js"></script>
+
+    <link rel="stylesheet" href="style.css" />
+</head>
+	
+<body>
+
+
+<div id="app" class="container-fluid h-100">
+    <div class="row justify-content-center h-100">
+        <div class="col-2">
+            <h1 class="ui-widget-header">Components</h1>
+            <v-catalog></v-catalog>
+        </div>
+        <div id="flow-panel" class="col">
+            <div class="row" style="height: 90%;">
+                <div class="col">
+                    <h1 class="ui-widget-header">Price Flow</h1>
+                    <div class="ui-widget-content" style="height: 100%;">
+                        <v-flow>                            
+                        </v-flow>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<script src="script.js"></script>
+<script>
+    Vue.component('v-catalog',
+    {
+        data: () => {
+            return {
+                currentMenu: 0,
+            };
+        },
+
+        methods: {
+            nextMenu: () => {
+
+            },
+        },
+        mounted: () => {
+            $("#catalog").accordion({
+                heightStyle: "content",
+            });
+        },
+        template:
+            `
+            <div id="catalog">
+                <h2><a href="#">Offers</a></h2>
+                <div>
+                    <ul>
+                        <li class='offer'>Office 365</li>
+                        <li class='offer'>Windows</li>
+                        <li class='offer'>Sql Server</li>
+                    </ul>
+                </div>
+                <h2><a href="#">Modifiers</a></h2>
+                <div>
+                    <ul>
+                        <li>Margin %</li>
+                        <li>Margin $</li>
+                        <li>Term month</li>
+                        <li>Term year</li>
+                        <li class='quantity'>Quantity</li>
+                    </ul>
+                </div>
+            </div>
+            `
+    });
+
+
+
+    Vue.component('v-flow',
+    {
+        mounted: () => {
+
+            $( "#catalog li" ).draggable({
+                appendTo: "body",
+                helper: "clone"
+            });
+            $("#flow").droppable({
+                activeClass: "highlight",
+                hoverClass: "highlight-accept",
+                accept: "ul li",
+                drop: function (event, ui) {
+                    $(this).find(".placeholder").remove();
+
+                    let newElement = $('<div class="window jtk-endpoint-anchor jtk-managed jtk-connected jtk-draggable"></div>');
+
+                    
+
+                    
+
+                    
+
+                    jsPlumb.importDefaults({
+                        Endpoint : ["Dot", {radius:8}],
+                        EndpointStyle : { fillStyle : "#4A6" },
+                        HoverPaintStyle : {strokeStyle:"#42a62c", lineWidth:8 },
+                        Connector:[ "Flowchart" ],
+                        ConnectionOverlays : [
+                            [ "Arrow", { 
+                                location:1,
+                                id:"arrow",
+                                length:20,
+                                foldback:0.4
+                            } ]
+                        ]
+                    });
+
+                    var workflowConnectorStartpoint = {
+                        isSource: true,
+                        isTarget: false,
+                        maxConnections: 1,				 
+                        anchor:"BottomCenter"
+                    };
+	
+                    var workflowConnectorEndpoint = {
+                        isSource: false,
+                        isTarget: true,
+                        maxConnections: -1,				 
+                        anchor:"TopCenter",
+                        paintStyle: { fillStyle: 'red' },
+                        endpoint: ["Rectangle", {width:12, height:12}]
+                    };
+
+
+
+
+
+
+                    if (ui.draggable.hasClass("offer")) {
+                        jsPlumb.addEndpoint(
+                            $('.startpoint'),
+                            workflowConnectorStartpoint
+                        );
+                    }
+                    if (ui.draggable.hasClass("quantity")) {
+                        newElement = $(`
+                        <div class="decision" data-nodetype="decision" id="decisioncontainer0">
+                                <div class="ctrl_container">
+                                    <div class="button_remove">x</div>
+                                </div>
+                        </div>`);
+                    }
+
+
+
+
+
+                    newElement.text(ui.draggable.text()).appendTo(this);
+                    jsPlumb.draggable(newElement);
+
+
+
+
+
+
+
+                    var $accordion = $("#catalog");
+                    var current = $accordion.accordion("option","active"),
+                        maximum = $accordion.find("h3").length,
+                        next = current+1 === maximum ? 0 : current+1;
+                    //$accordion.accordion("activate",next);
+                    $accordion.accordion("option","active",next);                    
+                }
+            });
+
+            
+
+        },
+        template: 
+        `
+        <div id="flow" class="jtk-demo-canvas canvas-wide chart-demo jtk-surface jtk-surface-nopan">
+            <div class="placeholder">Drag Offer here</div>
+        </div>
+        `
+    });
+
+    new Vue({
+        el: '#app',
+        data: {
+            
+        },
+        methods: {
+        },        
+        mounted: function() {
+
+            
+
+
+            	
+
+        },
+    });
+
+
+</script>
+
+</body>
+</html>
