@@ -199,23 +199,6 @@
         `
         <div id="flow" class="jtk-demo-canvas canvas-wide chart-demo jtk-surface jtk-surface-nopan">
             <div class="placeholder">Drag Offer here</div>
-            
-            <div class="window task" style="left: 120px; top:200px; display:none;" data-nodetype="task" id="taskcontainer0">
-                <div class="ctrl_container">
-                    <div class="button_remove">x</div>
-                </div>
-                <div class="details_container">
-                    <label class="detail_label">Name</label>
-                    <input value="" class="detail_text"/>
-                </div>
-            </div>
-    
-            <div class="window decision" style="left: 250px; top:300px; display:none;" data-nodetype="decision" id="decisioncontainer0">
-                <div class="ctrl_container">
-                    <div class="button_remove">x</div>
-                </div>
-            </div>
-
         </div>
         `
     });
@@ -240,9 +223,9 @@
     function addTask(draggable, $drowingWindow){        
 
         var id = "task-"+numberOfElements;
-        let element = $(`<div class="window task node" style="left: 220px; top: 350px;" data-nodetype="task" id="${id}">
+        let element = $(`<div class="task node" style="left: 220px; top: 350px;" data-nodetype="task" id="${id}">
                                                 <div class="details_container">
-                                                    <label class="detail_label">Margin %</label>
+                                                    <label class="detail_label">${draggable.text()}</label>
                                                     <input value="" class="detail_text"/>
                                                 </div>
                                                 <div class="ctrl_container">

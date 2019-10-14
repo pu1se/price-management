@@ -127,16 +127,7 @@ h1 { padding: .2em; margin: 0; }
     min-width: 5em;
 }
 
-.task {
-    background-color: #EEEEEF;
-    border: 1px solid #346789;
-    border-radius: 0.5em;
-    box-shadow: 2px 2px 5px #AAAAAA;
-    color: black;
-    min-height: 3em;
-    position: absolute;
-    min-width: 5em;
-}
+
 
 .point {
     background-color: #333333;
@@ -184,40 +175,6 @@ h1 { padding: .2em; margin: 0; }
         width: 80px;
     }
 
-.button {
-    text-align: center;
-    border: 1px solid;
-    margin: 5px;
-}
-
-    .button:hover {
-        cursor: pointer;
-    }
-
-.menu_button {
-    padding: 5px;
-}
-
-    .menu_button:hover {
-        background-color: #AAAAAA;
-        color: black;
-    }
-
-.button_add {
-    background-color: #00CC00;
-    border-radius: 50%;
-    box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff;
-    padding: 2px;
-    height: 25px;
-    width: 25px;
-    color: grey;
-}
-
-    .button_add:hover {
-        background-color: #00AA00;
-        color: black;
-    }
-
 .button_remove {
     color: darkgrey;
     border-radius: 30%;
@@ -226,15 +183,23 @@ h1 { padding: .2em; margin: 0; }
     text-align: center;
 }
 
-.task{
-    height: 60px;
+
+.task {
+    background-color: #EEEEEF;
+    border: 1px solid #346789;
+    border-radius: 0.5em;
+    box-shadow: 2px 2px 5px #AAAAAA;
+    color: black;
+    min-height: 3em;
+    position: absolute;
+    min-width: 5em;
+    height: 90px;
+    width: 210px;
 }
 
-.task .button_remove {
-}
 
 .decision .button_remove {
-    margin: auto auto;
+    margin: auto auto;    
 }
 
 .button_remove:hover {
@@ -248,8 +213,9 @@ h1 { padding: .2em; margin: 0; }
 
 
 .details_container {
-    margin: 5px;
+    margin: 30px 5px;
     height: auto;
+    width: 80%;
 }
 
 .detail_label {
@@ -264,5 +230,13 @@ h1 { padding: .2em; margin: 0; }
 }
 
 ._jsPlumb_connector, ._jsPlumb_startpoint {
+    cursor: pointer;
+}
+
+.task .ctrl_container{
+    width: 30px;
+    position: relative;
+    float: right;
+    top: -91px;
     cursor: pointer;
 }
