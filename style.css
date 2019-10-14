@@ -52,7 +52,6 @@ h1 { padding: .2em; margin: 0; }
 
 #flow-panel {
     width: 800px;
-    float: left;
     text-align: center;
 }
 /* style the list to maximize the droppable hitarea */
@@ -206,7 +205,6 @@ h1 { padding: .2em; margin: 0; }
 
 .button_add {
     background-color: #00CC00;
-    float: left;
     border-radius: 50%;
     box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff;
     padding: 2px;
@@ -221,18 +219,18 @@ h1 { padding: .2em; margin: 0; }
     }
 
 .button_remove {
-    font-size: 9pt;
     color: darkgrey;
     border-radius: 30%;
     box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff;
     padding: 5px;
-    min-width: 10px;
-    max-width: 15px;
     text-align: center;
 }
 
+.task{
+    height: 60px;
+}
+
 .task .button_remove {
-    float: right;
 }
 
 .decision .button_remove {
@@ -248,24 +246,21 @@ h1 { padding: .2em; margin: 0; }
     margin: 5px;
 }
 
-.ctrl_container {
-    margin: 5px;
-    height: 40px;
-}
 
 .details_container {
     margin: 5px;
-    min-height: 40px;
+    height: auto;
 }
 
 .detail_label {
-    font-size: 9pt;
+    font-size: 15px;
     color: grey;
 }
 
 .detail_text {
     width: 80px;
-    font-size: 10pt;
+    font-size: 14px;
+    height: 25px;
 }
 
 ._jsPlumb_connector, ._jsPlumb_startpoint {

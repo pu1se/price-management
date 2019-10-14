@@ -72,8 +72,8 @@
                 <h2><a href="#">Modifiers</a></h2>
                 <div>
                     <ul>
-                        <li>Margin %</li>
-                        <li>Margin $</li>
+                        <li>Discont %</li>
+                        <li>Discont $</li>
                         <li class='if'>Quantity</li>
                     </ul>
                 </div>
@@ -97,6 +97,8 @@
                 accept: "ul li",
                 drop: function (event, ui) {
 
+                    let $drowingWindow = $("#flow");
+
                     if (!wasInitialized){
 
                         $(this).find(".placeholder").remove();
@@ -110,14 +112,15 @@
 
 
                         //drowing logic
-                        let numberOfElements = 0;
-                        let drowingWindowSelector = "#flow"
+                        let startElement = $(`<div class="startpoint point window node" style="left: 650px; top:100px" data-nodetype="startpoint" id="startpoint">
+                                                ${ui.draggable.text()}
+                                            </div>`);
+                        startElement.appendTo($drowingWindow);
 
-                        let startElement = $('<div class="startpoint point window node" style="left: 650px; top:100px" data-nodetype="startpoint" id="startpoint">'+ui.draggable.text()+'</div>');
-                        startElement.appendTo($(drowingWindowSelector));
-
-                        let endElement = $('<div class="endpoint point window node" style="left: 650px; top:850px" data-nodetype="endpoint" id="endpoint">Finish Selling Flow</div>');
-                        endElement.appendTo($(drowingWindowSelector));
+                        let endElement = $(`<div class="endpoint point window node" style="left: 650px; top:850px" data-nodetype="endpoint" id="endpoint">
+                                                Finish Selling Flow
+                                            </div>`);
+                        endElement.appendTo($drowingWindow);
 
 
                         jsPlumb.draggable($(".window"));
@@ -163,9 +166,27 @@
                             workflowConnectorEndpoint
                         );
 
+                        $drowingWindow.on("click", ".button_remove", function () {
+                            var parentnode = $(this)[0].parentNode.parentNode;
+                            jsPlumb.detachAllConnections(parentnode);
+                            jsPlumb.removeAllEndpoints(parentnode);
+                            $(parentnode).remove(); 
+                        });
+	
+
                         wasInitialized = true;
                     } else {
 
+                        console.log(ui.draggable);
+
+                        if (ui.draggable[0].classList.value.indexOf('if') >= 0) {
+                            console.log("add decision");
+                            addDecistion(ui.draggable, $drowingWindow);
+                        }else{
+                            console.log("add task");
+                            addTask(ui.draggable, $drowingWindow);    
+                        }
+                        numberOfElements++;
                     }
 
                 }
@@ -216,6 +237,54 @@
         },
     });
 
+    function addTask(draggable, $drowingWindow){        
+
+        var id = "task-"+numberOfElements;
+        let element = $(`<div class="window task node" style="left: 220px; top: 350px;" data-nodetype="task" id="${id}">
+                                                <div class="details_container">
+                                                    <label class="detail_label">Margin %</label>
+                                                    <input value="" class="detail_text"/>
+                                                </div>
+                                                <div class="ctrl_container">
+                                                    <div class="button_remove">x</div>
+                                                </div>
+                                            </div>`);
+        element.appendTo($drowingWindow);        
+
+        var taskSourceConnectorEndpoint = {
+            isSource: true,
+            isTarget: false,
+            maxConnections: 1,
+            anchor:[ 0.5, 1, 0, 1, 0, 0 , "task_end endpoint"],
+        };
+
+        var taskTargetConnectorEndpoint = {
+            isSource: false,
+            isTarget: true,
+            maxConnections: 1,	
+            anchor:[ 0.5, 0, 0, -1, 0, 0 , "task_end endpoint"],
+            paintStyle: { fillStyle: 'red' },
+            endpoint: ["Rectangle", {width:12, height:12}]
+        };
+        
+        jsPlumb.addEndpoint(
+            $('#'+id),
+            taskSourceConnectorEndpoint
+        );
+        
+        jsPlumb.addEndpoint(
+            $('#'+id),
+            taskTargetConnectorEndpoint
+        );
+        
+        jsPlumb.draggable($('#' + id));
+    }
+
+    function addDecistion(){
+
+    }
+
+    let numberOfElements = 0;
 
 </script>
 
