@@ -149,7 +149,7 @@ h1 { padding: .2em; margin: 0; }
 
 .decision {
     transform: rotate(-45deg);
-    overflow: hidden;
+    overflow: visible;
     border: 1px solid #346789;
     border-radius: 0.3em;
     color: black;
@@ -159,21 +159,42 @@ h1 { padding: .2em; margin: 0; }
     color: #000000;
     display: block;
     height: 80px;
-    overflow: hidden;
     position: relative;
     text-decoration: none;
     width: 80px;
 }
 
-    .decision .ctrl_container {
-        display: table-cell;
-        height: 80px;
-        padding: 0 10px;
-        text-align: center;
-        transform: rotate(45deg);
-        vertical-align: middle;
-        width: 80px;
-    }
+.decision .ctrl_container {
+    display: table-cell;
+    height: 80px;
+    text-align: center;
+    transform: rotate(45deg);
+    vertical-align: middle;
+    width: 80px;    
+}
+
+.decision .details_container{
+    transform: rotate(45deg);
+    margin-top:12px;
+}
+
+.decision .details_container .detail_label{
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.decision .details_container .detail_text{
+    width: 50px;
+    margin-left: 5px;
+}
+
+.decision .button_remove {
+    width: 30px;
+    position: relative;
+    top: -83px;
+    left: 35px;
+    z-index: 1000; 
+}
 
 .button_remove {
     color: darkgrey;
@@ -198,9 +219,7 @@ h1 { padding: .2em; margin: 0; }
 }
 
 
-.decision .button_remove {
-    margin: auto auto;    
-}
+
 
 .button_remove:hover {
     background-color: darkred;
@@ -212,7 +231,7 @@ h1 { padding: .2em; margin: 0; }
 }
 
 
-.details_container {
+.task .details_container {
     margin: 30px 5px;
     height: auto;
     width: 80%;
@@ -227,6 +246,7 @@ h1 { padding: .2em; margin: 0; }
     width: 80px;
     font-size: 14px;
     height: 25px;
+    border: 1px #aaa solid;
 }
 
 ._jsPlumb_connector, ._jsPlumb_startpoint {

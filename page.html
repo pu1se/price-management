@@ -64,9 +64,9 @@
                 <h2><a href="#">Offers</a></h2>
                 <div>
                     <ul>
-                        <li class='offer'>Office 365 - $100</li>
-                        <li class='offer'>Windows - $120</li>
-                        <li class='offer'>Sql Server - $150</li>
+                        <li class='offer'>Office 365</li>
+                        <li class='offer'>Windows</li>
+                        <li class='offer'>Sql Server</li>
                     </ul>
                 </div>
                 <h2><a href="#">Modifiers</a></h2>
@@ -112,8 +112,9 @@
 
 
                         //drowing logic
-                        let startElement = $(`<div class="startpoint point window node" style="left: 650px; top:100px" data-nodetype="startpoint" id="startpoint">
-                                                ${ui.draggable.text()}
+                        let startElement = $(`<div class="startpoint point node" style="left: 650px; top:100px" data-nodetype="startpoint" id="startpoint">
+                                                <h5>${ui.draggable.text()}</h5>
+                                                <h5>Vendor price 100$</h5>
                                             </div>`);
                         startElement.appendTo($drowingWindow);
 
@@ -251,20 +252,70 @@
         };
         
         jsPlumb.addEndpoint(
-            $('#'+id),
+            element,
             taskSourceConnectorEndpoint
         );
         
         jsPlumb.addEndpoint(
-            $('#'+id),
+            element,
             taskTargetConnectorEndpoint
         );
         
-        jsPlumb.draggable($('#' + id));
+        jsPlumb.draggable(element);
     }
 
-    function addDecistion(){
+    function addDecistion(draggable, $drowingWindow){
+        var id = "decision-"+numberOfElements;
+        let element = $(`<div class="decision" style="left: 250px; top:400px;" data-nodetype="decision" id="${id}">
+                            <div class="details_container">
+                                <label class="detail_label">Quantity &lt;</label>
+                                <input value="" class="detail_text"/>
+                            </div>
+                            <div class="ctrl_container">
+                                <div class="button_remove">x</div>
+                            </div>
+                        </div>`);
+        element.appendTo($drowingWindow);        
 
+        var upperDecisionConnectorEndpoint = {
+            isSource: false,
+            isTarget: true,
+            maxConnections: 1,				 
+            anchor:[ 0.5, 0, 0, -1, 16, 0 , "upper_dec_end endpoint"],
+            paintStyle: { fillStyle: 'red' },
+            endpoint: ["Rectangle", {width:12, height:12}]
+        };
+        
+        var leftDecisionConnectorEndpoint = {
+            isSource: true,
+            isTarget: false,
+            maxConnections: 1,				 
+            anchor:[ 0, 0.5, 0, 1, 0, 16 , "left_dec_start startpoint"]
+        };
+        
+        var rightDecisionConnectorEndpoint = {
+            isSource: true,
+            isTarget: false,
+            maxConnections: 1,				 
+            anchor:[ 1.0, 0.5, 0, 1, 32, 16 , "right_dec_start startpoint"]
+        };
+        
+        jsPlumb.addEndpoint(
+            $('#'+id),
+            leftDecisionConnectorEndpoint
+        );
+        
+        jsPlumb.addEndpoint(
+            $('#'+id),
+            rightDecisionConnectorEndpoint
+        );
+        
+        jsPlumb.addEndpoint(
+            $('#'+id),
+            upperDecisionConnectorEndpoint
+        );
+        
+        jsPlumb.draggable($('#' + id));
     }
 
     let numberOfElements = 0;
