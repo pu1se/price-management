@@ -270,11 +270,13 @@
         var id = "decision-"+numberOfElements;
         let element = $(`<div class="decision" style="left: 250px; top:400px;" data-nodetype="decision" id="${id}">
                             <div class="details_container">
-                                <label class="detail_label">Quantity &lt;</label>
+                                <label class="detail_label">Quantity lower</label>
                                 <input value="" class="detail_text"/>
                             </div>
                             <div class="ctrl_container">
                                 <div class="button_remove">x</div>
+                                <div class="yes">Yes</div>
+                                <div class="no">No</div>
                             </div>
                         </div>`);
         element.appendTo($drowingWindow);        

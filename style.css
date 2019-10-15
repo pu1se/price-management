@@ -173,9 +173,30 @@ h1 { padding: .2em; margin: 0; }
     width: 80px;    
 }
 
+.decision .button_remove {
+    width: 30px;
+    position: relative;
+    top: -84px;
+    left: 28px;
+    z-index: 1000;
+    cursor: pointer; 
+}
+
+.decision .ctrl_container .yes{
+    position: relative;
+    top: -80px;
+    left: -115px;
+}
+
+.decision .ctrl_container .no{
+    position: relative;
+    top: -104px;
+    left: 5px;
+}
+
 .decision .details_container{
     transform: rotate(45deg);
-    margin-top:12px;
+    margin-top:5px;
 }
 
 .decision .details_container .detail_label{
@@ -186,15 +207,6 @@ h1 { padding: .2em; margin: 0; }
 .decision .details_container .detail_text{
     width: 50px;
     margin-left: 5px;
-}
-
-.decision .button_remove {
-    width: 30px;
-    position: relative;
-    top: -83px;
-    left: 35px;
-    z-index: 1000;
-    cursor: pointer; 
 }
 
 .button_remove {
