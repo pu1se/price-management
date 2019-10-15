@@ -193,7 +193,8 @@ h1 { padding: .2em; margin: 0; }
     position: relative;
     top: -83px;
     left: 35px;
-    z-index: 1000; 
+    z-index: 1000;
+    cursor: pointer; 
 }
 
 .button_remove {
@@ -214,8 +215,8 @@ h1 { padding: .2em; margin: 0; }
     min-height: 3em;
     position: absolute;
     min-width: 5em;
-    height: 90px;
-    width: 210px;
+    height: 100px;
+    width: 220px;
 }
 
 
@@ -257,6 +258,6 @@ h1 { padding: .2em; margin: 0; }
     width: 30px;
     position: relative;
     float: right;
-    top: -91px;
+    top: -92px;
     cursor: pointer;
 }

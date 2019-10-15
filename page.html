@@ -114,7 +114,7 @@
                         //drowing logic
                         let startElement = $(`<div class="startpoint point node" style="left: 650px; top:100px" data-nodetype="startpoint" id="startpoint">
                                                 <h5>${ui.draggable.text()}</h5>
-                                                <h5>Vendor price 100$</h5>
+                                                <h5>Vendor's price 175$</h5>
                                             </div>`);
                         startElement.appendTo($drowingWindow);
 
@@ -199,7 +199,7 @@
         template: 
         `
         <div id="flow" class="jtk-demo-canvas canvas-wide chart-demo jtk-surface jtk-surface-nopan">
-            <div class="placeholder">Drag Offer here</div>
+            <div class="placeholder">Drop Offer here</div>
         </div>
         `
     });
@@ -228,6 +228,8 @@
                                                 <div class="details_container">
                                                     <label class="detail_label">${draggable.text()}</label>
                                                     <input value="" class="detail_text"/>
+                                                    <br/>
+                                                    <h6 class="price"></h6>
                                                 </div>
                                                 <div class="ctrl_container">
                                                     <div class="button_remove">x</div>
@@ -319,6 +321,35 @@
     }
 
     let numberOfElements = 0;
+
+    $(document).ready(function(){
+
+        $("body").on("keyup", "input", function(){
+
+            let input = $(this);
+            setTimeout(function(){
+
+                
+                let isPercent = input.parent().find("label").text().indexOf("%") >= 0;
+                console.log("is percent", isPercent);
+                let price = 175;
+                if (isPercent){
+                    price = price - price*(+input.val())/100;
+                    price = price.toFixed(2);
+                }else{
+                    price = price - (+input.val());
+                }
+
+            
+                input.parent().find(".price").delay(3000).text("Reseller's price: "+price+"$");
+                input.parent().parent().find(".ctrl_container").css("top", "-111px");
+            }, 1500);
+
+            
+
+        });
+
+    });
 
 </script>
 
